@@ -1,0 +1,129 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	jogo: CollectionEntry<'jogos'>;
+}
+
+const { jogo } = Astro.props;
+const { title, autoria, descricao, link, imagem, tipo, estilos, preco } = jogo.data;
+const site = new URL(link).hostname.replace(/^www\./, '');
+// Texto usado pela busca: nome, autoria e descrição, sem acento e em minúsculas.
+const busca = `${title} ${autoria} ${descricao}`
+	.normalize('NFD')
+	.replace(/\p{Diacritic}/gu, '')
+	.toLowerCase();
+---
+
+<li class="jogo" data-tipo={tipo} data-estilos={estilos.join('|')} data-busca={busca}>
+	<a href={link} target="_blank" rel="noopener">
+		<div class="capa">
+			<span class="sem-capa" aria-hidden="true">{title}</span>
+			{
+				imagem && (
+					<img
+						src={imagem}
+						alt={`Capa de ${title}`}
+						loading="lazy"
+						decoding="async"
+						referrerpolicy="no-referrer"
+						onerror="this.remove()"
+					/>
+				)
+			}
+		</div>
+		<h2>{title}</h2>
+		<p class="autoria">por {autoria}</p>
+		<p class="descricao">{descricao}</p>
+		<ul class="etiquetas">
+			<li>{tipo}</li>
+			{estilos.map((estilo) => <li>{estilo}</li>)}
+			{preco && <li>{preco}</li>}
+		</ul>
+		<span class="abrir">Abrir em {site}</span>
+	</a>
+</li>
+<style>
+	.jogo {
+		margin: 0;
+	}
+	a {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		color: inherit;
+		text-decoration: none;
+	}
+	/* A capa fica na proporção das capas do itch.io (630×500). */
+	.capa {
+		position: relative;
+		display: grid;
+		place-items: center;
+		aspect-ratio: 630 / 500;
+		margin-bottom: 0.9rem;
+		overflow: hidden;
+		background: var(--carvao);
+		border-radius: 4px;
+	}
+	.capa img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 0;
+	}
+	/* Sem imagem (ou se o link da imagem quebrar), aparece o nome do jogo no lugar. */
+	.sem-capa {
+		padding: 1rem;
+		color: #4a4a4a;
+		font-weight: 900;
+		font-stretch: var(--cartaz);
+		font-size: 2rem;
+		line-height: 0.95;
+		text-align: center;
+	}
+	h2 {
+		margin: 0 0 0.2rem;
+		font-size: clamp(1.6rem, 6.5vw, 1.9rem);
+		text-decoration-color: var(--vermelho);
+		text-decoration-thickness: 3px;
+		text-underline-offset: 0.12em;
+	}
+	a:hover h2 {
+		text-decoration-line: underline;
+	}
+	.autoria {
+		margin: 0 0 0.6rem;
+		color: var(--cinza);
+		font-size: 0.95rem;
+	}
+	.descricao {
+		margin: 0 0 0.9rem;
+		line-height: 1.5;
+	}
+	.etiquetas {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		margin: 0 0 0.9rem;
+		padding: 0;
+		list-style: none;
+	}
+	.etiquetas li {
+		margin: 0;
+		padding: 0.1rem 0.55rem;
+		border: 1px solid var(--linha);
+		border-radius: 3px;
+		color: var(--cinza);
+		font-size: 0.85rem;
+	}
+	.abrir {
+		margin-top: auto;
+		color: var(--vermelho-texto);
+		font-size: 0.95rem;
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.18em;
+	}
+</style>

@@ -1,11 +1,11 @@
 ---
 import { type CollectionEntry, render } from 'astro:content';
 import Page from '../layouts/Page.astro';
-import { getPaginas } from '../lib/paginas';
+import { COM_PAGINA_PROPRIA, getPaginas } from '../lib/paginas';
 
 // Uma rota para todas as páginas criadas no painel: /sobre/, /repositorio-br/...
 export async function getStaticPaths() {
-	const paginas = await getPaginas();
+	const paginas = (await getPaginas()).filter((p) => !COM_PAGINA_PROPRIA.has(p.id));
 	return paginas.map((pagina) => ({
 		params: { pagina: pagina.id },
 		props: pagina,

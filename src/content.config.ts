@@ -33,4 +33,25 @@ const paginas = defineCollection({
 	}),
 });
 
-export const collections = { blog, paginas };
+// Catálogo do Repositório BR: um arquivo por jogo em src/content/jogos/<slug>.md, só com os dados.
+// As listas abaixo são as mesmas opções do painel (public/admin/config.yml): mude nos dois lugares.
+export const TIPOS = ['Jogo', 'Suplemento', 'Aventura', 'Cenário', 'Guia'] as const;
+export const ESTILOS = ['NSR', 'OSR', 'Indie'] as const;
+export const PRECOS = ['Gratuito', 'Pague quanto quiser', 'Pago'] as const;
+
+const jogos = defineCollection({
+	loader: glob({ base: './src/content/jogos', pattern: '**/*.md' }),
+	schema: z.object({
+		title: z.string(),
+		autoria: z.string(),
+		descricao: z.string(),
+		link: z.string().url(),
+		// Imagem pelo endereço (ex.: a capa no itch.io), sem upload.
+		imagem: z.string().url().optional(),
+		tipo: z.enum(TIPOS),
+		estilos: z.array(z.enum(ESTILOS)).default([]),
+		preco: z.enum(PRECOS).optional(),
+	}),
+});
+
+export const collections = { blog, paginas, jogos };

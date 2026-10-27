@@ -84,6 +84,59 @@ collections:
         hint: Ligado = salva no GitHub, mas não aparece no site.
       - { label: Texto, name: body, widget: richtext }
 
+  - name: jogos
+    label: Repositório BR
+    label_singular: Jogo
+    description: Catálogo de jogos e materiais da cena nacional, na página /repositorio-br/. O texto de abertura da página fica em Páginas → Repositório BR.
+    folder: src/content/jogos
+    path: '{{slug}}'
+    extension: md
+    format: frontmatter
+    create: true
+    delete: true
+    preview_path: 'repositorio-br/'
+    summary: '{{title}} · {{autoria}}'
+    sortable_fields:
+      fields: [title, autoria, tipo]
+      default:
+        field: title
+        direction: ascending
+    # As opções de Tipo, Estilos e Preço também estão em src/content.config.ts: mude nos dois lugares.
+    fields:
+      - { label: Nome, name: title, widget: string }
+      - { label: Autoria, name: autoria, widget: string, hint: 'Pessoa, coletivo ou editora.' }
+      - label: Descrição
+        name: descricao
+        widget: text
+        hint: Uma ou duas frases sobre o jogo.
+      - label: Link
+        name: link
+        widget: string
+        hint: Página do jogo (itch.io, DriveThruRPG, site próprio...).
+        pattern: ['^https?://\S+$', 'Cole o endereço completo, começando com https://']
+      - label: URL da imagem
+        name: imagem
+        widget: string
+        required: false
+        hint: 'Endereço da capa, sem upload. No itch.io: botão direito na capa → "Copiar endereço da imagem". Sem imagem, aparece o nome do jogo no lugar.'
+        pattern: ['^https?://\S+$', 'Cole o endereço completo da imagem, começando com https://']
+      - label: Tipo
+        name: tipo
+        widget: select
+        options: [Jogo, Suplemento, Aventura, Cenário, Guia]
+        default: Jogo
+      - label: Estilos
+        name: estilos
+        widget: select
+        multiple: true
+        required: false
+        options: [NSR, OSR, Indie]
+      - label: Preço
+        name: preco
+        widget: select
+        required: false
+        options: [Gratuito, Pague quanto quiser, Pago]
+
   - name: paginas
     label: Páginas
     label_singular: Página

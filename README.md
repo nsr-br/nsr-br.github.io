@@ -41,6 +41,15 @@ escolha a **Posição no menu** (número menor aparece antes; Posts vem sempre p
 `/<título-sem-acento>/`, por exemplo "Repositório BR" → `/repositorio-br/`. Os títulos "Blog" e "Admin"
 não podem ser usados, porque esses endereços já existem.
 
+## Cadastrar um jogo no Repositório BR
+
+No painel: **Repositório BR → Novo**. Nome, autoria, descrição, link, tipo, estilos e preço. A capa vai pelo
+**endereço da imagem** (sem upload): no itch.io, botão direito na capa → "Copiar endereço da imagem". Se a
+imagem faltar ou o endereço quebrar, o card mostra o nome do jogo no lugar.
+
+Os filtros de Tipo e Estilo aparecem sozinhos quando o catálogo tem pelo menos dois valores diferentes.
+Para mudar as opções (ex.: novo tipo), edite a lista em `public/admin/config.yml` **e** em `src/content.config.ts`.
+
 ## Escrever no computador, sem GitHub
 
 ```sh
@@ -63,6 +72,7 @@ Rascunhos (`draft: true`) aparecem no `npm run dev` com um selo amarelo, mas fic
 | Menu e rodapé | `src/components/Header.astro`, `src/components/Footer.astro` |
 | Páginas (Sobre, Repositório BR...) | pelo painel (**Páginas**) ou `src/content/paginas/<slug>/index.md` |
 | Posts | pelo painel ou `src/content/blog/<slug>/index.md` (imagens na mesma pasta) |
+| Jogos do Repositório BR | pelo painel ou `src/content/jogos/<slug>.md` |
 | Campos do painel | `public/admin/config.yml` |
 | Logo e ícones | `src/assets/logo.png`, `public/favicon-32.png`, `public/apple-touch-icon.png`, `public/icon-512.png`, `public/admin/logo.png` |
 | Imagem de compartilhamento | `src/assets/og-default.png` |
