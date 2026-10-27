@@ -10,5 +10,7 @@ ordem: 10
 ## RPG Antifascista 
 
 **Autor**: Horus
+
 **Descrição**: Praticamente um manifesto de como criar, jogar e mestrar mesas de RPG ANTIFA.
+
 **Link**: [https://horoscopezine.itch.io/rpg-antifascista](https://horoscopezine.itch.io/rpg-antifascista)
