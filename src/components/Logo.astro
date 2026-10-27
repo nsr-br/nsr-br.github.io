@@ -1,0 +1,22 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+
+interface Props {
+	size: number;
+	class?: string;
+	eager?: boolean;
+}
+
+const { size, class: className, eager = false } = Astro.props;
+---
+
+<Image
+	src={logo}
+	alt="NSR"
+	width={size}
+	height={size}
+	densities={[1, 2]}
+	loading={eager ? 'eager' : 'lazy'}
+	class={className}
+/>

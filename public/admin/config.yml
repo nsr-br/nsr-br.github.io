@@ -13,6 +13,8 @@ backend:
     uploadMedia: 'Envia imagem {{path}}'
     deleteMedia: 'Apaga imagem {{path}}'
 
+logo_url: logo.png
+
 site_url: http://localhost:4321
 display_url: http://localhost:4321
 

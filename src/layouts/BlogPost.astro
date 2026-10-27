@@ -9,101 +9,111 @@ type Props = CollectionEntry<'blog'>['data'];
 const { title, description, pubDate, updatedDate, heroImage, heroAlt, tags, draft } = Astro.props;
 ---
 
-<Page title={title} description={description} image={heroImage} type="article" wide>
+<Page title={title} description={description} image={heroImage} type="article">
 	<article>
-		{
-			heroImage && (
-				<div class="hero-image">
-					<Image width={1020} height={510} src={heroImage} alt={heroAlt ?? ''} />
-				</div>
-			)
-		}
-		<div class="prose">
-			<div class="title">
-				{draft && <p class="draft">Rascunho: não aparece no site publicado</p>}
-				<div class="date">
-					<FormattedDate date={pubDate} />
-					{
-						updatedDate && (
-							<div class="last-updated-on">
-								Atualizado em <FormattedDate date={updatedDate} />
-							</div>
-						)
-					}
-				</div>
-				<h1>{title}</h1>
+		<header class="cabeca">
+			{draft && <p class="rascunho">Rascunho: não aparece no site publicado</p>}
+			<p class="data">
+				<FormattedDate date={pubDate} />
 				{
-					tags.length > 0 && (
-						<ul class="tags">
-							{tags.map((tag) => (
-								<li>#{tag}</li>
-							))}
-						</ul>
+					updatedDate && (
+						<span class="atualizado">
+							Atualizado em <FormattedDate date={updatedDate} />
+						</span>
 					)
 				}
-				<hr />
-			</div>
+			</p>
+			<h1>{title}</h1>
+			<p class="resumo">{description}</p>
+			{
+				tags.length > 0 && (
+					<ul class="tags" aria-label="Tags">
+						{tags.map((tag) => (
+							<li>#{tag}</li>
+						))}
+					</ul>
+				)
+			}
+		</header>
+		{
+			heroImage && (
+				<Image
+					class="capa"
+					src={heroImage}
+					alt={heroAlt ?? ''}
+					widths={[400, 720, 1100]}
+					sizes="(min-width: 46rem) 42rem, 100vw"
+					loading="eager"
+				/>
+			)
+		}
+		<div class="texto">
 			<slot />
 		</div>
 	</article>
 </Page>
 <style>
-	.hero-image {
-		width: 100%;
+	.cabeca {
+		margin-bottom: 2rem;
 	}
-	.hero-image img {
+	.data {
+		margin: 0 0 0.75rem;
+		color: var(--cinza);
+		font-size: 0.95rem;
+	}
+	.atualizado {
 		display: block;
-		margin: 0 auto;
-		border-radius: 12px;
-		box-shadow: var(--box-shadow);
+		font-size: 0.85rem;
 	}
-	.prose {
-		width: 720px;
-		max-width: 100%;
-		margin: auto;
-		padding: 1em 0;
-		color: rgb(var(--gray-dark));
+	h1 {
+		margin-bottom: 0.4em;
 	}
-	.title {
-		margin-bottom: 1em;
-		padding: 1em 0;
-		text-align: center;
-		line-height: 1;
-	}
-	.title h1 {
-		margin: 0 0 0.5em 0;
-	}
-	.date {
-		margin-bottom: 0.5em;
-		color: rgb(var(--gray));
-	}
-	.last-updated-on {
-		margin-top: 0.4em;
-		font-size: 0.8em;
-		font-style: italic;
-	}
-	.draft {
-		display: inline-block;
-		margin: 0 0 1em;
-		padding: 0.3em 0.8em;
-		background: #fff3cd;
-		border-radius: 4px;
-		font-size: 0.75em;
+	.resumo {
+		margin: 0 0 1rem;
+		color: var(--cinza);
+		font-size: 1.15em;
+		line-height: 1.45;
 	}
 	.tags {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0.5em;
-		margin: 0 0 1em;
+		gap: 0.25rem 0.9rem;
+		margin: 0;
 		padding: 0;
 		list-style: none;
-		font-size: 0.75em;
-		color: var(--accent);
+		color: var(--vermelho-texto);
+		font-size: 0.95rem;
 	}
-	@media (max-width: 720px) {
-		.title h1 {
-			font-size: 2em;
+	.tags li {
+		margin: 0;
+	}
+	.rascunho {
+		display: inline-block;
+		margin: 0 0 1rem;
+		padding: 0.2em 0.6em;
+		border: 1px solid var(--vermelho);
+		border-radius: 3px;
+		color: var(--papel);
+		font-size: 0.85rem;
+	}
+	.capa {
+		width: calc(100% + 2 * var(--margem));
+		max-width: none;
+		margin: 0 calc(-1 * var(--margem)) 2rem;
+		border-radius: 0;
+	}
+	@media (min-width: 46rem) {
+		.capa {
+			width: 100%;
+			margin: 0 0 2.5rem;
+			border-radius: 4px;
 		}
+	}
+	.texto :global(h2:first-child),
+	.texto :global(h3:first-child) {
+		margin-top: 0;
+	}
+	.texto :global(img) {
+		margin: 2em 0;
 	}
 </style>

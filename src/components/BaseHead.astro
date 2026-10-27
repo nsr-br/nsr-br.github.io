@@ -7,7 +7,6 @@ import { getImage } from 'astro:assets';
 import FallbackImage from '../assets/og-default.png';
 import { SITE_TITLE } from '../consts';
 import { url } from '../utils/url';
-import { Font } from 'astro:assets';
 
 interface Props {
 	title: string;
@@ -26,13 +25,14 @@ const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`;
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+<link rel="icon" type="image/png" sizes="32x32" href={url('/favicon-32.png')} />
+<link rel="icon" type="image/png" sizes="512x512" href={url('/icon-512.png')} />
+<link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
 <link rel="sitemap" href={url('/sitemap-index.xml')} />
 <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={url('/rss.xml')} />
-<meta name="theme-color" content="#111111" />
+<meta name="theme-color" content="#000000" />
+<meta name="color-scheme" content="dark" />
 <meta name="generator" content={Astro.generator} />
-
-<Font cssVariable="--font-atkinson" preload />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

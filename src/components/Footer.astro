@@ -6,33 +6,54 @@ const today = new Date();
 ---
 
 <footer>
-	<p>&copy; {today.getFullYear()} {SITE_TITLE}</p>
-	<p class="links">
-		<a href={url('/rss.xml')}>RSS</a>
-		<span aria-hidden="true">·</span>
-		<a href={url('/sobre/')}>Sobre</a>
-	</p>
+	<div class="dentro">
+		<p class="nome">{SITE_TITLE}</p>
+		<ul>
+			<li><a href={url('/blog/')}>Posts</a></li>
+			<li><a href={url('/sobre/')}>Sobre</a></li>
+			<li><a href={url('/rss.xml')}>RSS</a></li>
+		</ul>
+		<p class="ano">&copy; {today.getFullYear()}</p>
+	</div>
 </footer>
 <style>
 	footer {
-		padding: 2em 1em 4em 1em;
-		background: var(--ink);
-		color: rgba(255, 255, 255, 0.7);
-		text-align: center;
-		font-size: 0.85em;
+		border-top: 1px solid var(--linha);
+		color: var(--cinza);
+		font-size: 0.95rem;
 	}
-	footer p {
-		margin: 0.3em 0;
+	.dentro {
+		max-width: calc(var(--medida) + 2 * var(--margem));
+		margin: 0 auto;
+		padding: 2rem var(--margem) 3rem;
 	}
-	.links {
+	.nome {
+		margin: 0 0 0.75rem;
+		color: var(--papel);
+		font-weight: 800;
+		font-stretch: var(--cartaz);
+		font-size: 1.4rem;
+		line-height: 1;
+	}
+	ul {
 		display: flex;
-		justify-content: center;
-		gap: 0.6em;
+		flex-wrap: wrap;
+		gap: 0.25rem 1.25rem;
+		margin: 0 0 1.5rem;
+		padding: 0;
+		list-style: none;
 	}
-	.links a {
-		color: rgba(255, 255, 255, 0.85);
+	li {
+		margin: 0;
 	}
-	.links a:hover {
-		color: #fff;
+	a {
+		color: var(--cinza);
+	}
+	a:hover {
+		color: var(--papel);
+	}
+	.ano {
+		margin: 0;
+		font-size: 0.85rem;
 	}
 </style>

@@ -52,12 +52,13 @@ Rascunhos (`draft: true`) aparecem no `npm run dev` com um selo amarelo, mas fic
 | O quê | Onde |
 |---|---|
 | Nome e descrição do blog | `src/consts.ts` |
-| Cores | topo de `src/styles/global.css` |
+| Cores e fonte | topo de `src/styles/global.css` |
 | Menu e rodapé | `src/components/Header.astro`, `src/components/Footer.astro` |
 | Página "Sobre" | pelo painel (**Páginas → Sobre**) ou `src/content/paginas/sobre.md` |
 | Posts | pelo painel ou `src/content/blog/<slug>/index.md` (imagens na mesma pasta) |
 | Campos do painel | `public/admin/config.yml` |
-| Ícone / imagem de compartilhamento | `public/favicon.svg`, `src/assets/og-default.png` |
+| Logo e ícones | `src/assets/logo.png`, `public/favicon-32.png`, `public/apple-touch-icon.png`, `public/icon-512.png`, `public/admin/logo.png` |
+| Imagem de compartilhamento | `src/assets/og-default.png` |
 
 ## Domínio próprio (opcional)
 

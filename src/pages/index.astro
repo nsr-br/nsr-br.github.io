@@ -1,59 +1,84 @@
 ---
+import Logo from '../components/Logo.astro';
 import PostList from '../components/PostList.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import Page from '../layouts/Page.astro';
 import { getPosts } from '../lib/posts';
 import { url } from '../utils/url';
 
-const LATEST = 6;
+const LATEST = 8;
 const posts = await getPosts();
 ---
 
-<Page title={SITE_TITLE} description={SITE_DESCRIPTION} wide>
-	<section class="hero">
-		<h1>{SITE_TITLE}</h1>
-		<p>{SITE_DESCRIPTION}</p>
+<Page title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<section class="capa" aria-label={SITE_TITLE}>
+		<Logo size={176} class="carimbo" eager />
+		<h1>
+			<span>NSR</span>
+			<span>ANTIFA</span>
+			<span>BR</span>
+		</h1>
 	</section>
-	<section>
-		<h2 class="section-title">Últimos posts</h2>
-		<PostList posts={posts.slice(0, LATEST)} />
-		{
-			posts.length > LATEST && (
-				<p class="more">
-					<a href={url('/blog/')}>Ver todos os posts →</a>
-				</p>
-			)
-		}
-	</section>
+	<p class="descricao">{SITE_DESCRIPTION}</p>
+
+	<h2 class="secao">Últimos posts</h2>
+	<PostList posts={posts.slice(0, LATEST)} />
+	{
+		posts.length > LATEST && (
+			<p class="mais">
+				<a href={url('/blog/')}>Ver todos os {posts.length} posts</a>
+			</p>
+		)
+	}
 </Page>
 <style>
-	.hero {
-		margin-bottom: 3rem;
-		padding-bottom: 2rem;
-		border-bottom: 1px solid rgb(var(--gray-light));
+	/* O momento marcante do site: o carimbo + o nome em pilha, como cartaz. */
+	.capa {
+		display: flex;
+		align-items: center;
+		gap: clamp(0.9rem, 4vw, 1.75rem);
+		margin: 0.5rem 0 1.25rem;
 	}
-	.hero h1 {
+	.capa :global(.carimbo) {
+		flex: none;
+		width: clamp(7rem, 34vw, 11rem);
+		height: auto;
+		border-radius: 0;
+		animation: carimbo 420ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+	}
+	h1 {
+		display: flex;
+		flex-direction: column;
 		margin: 0;
-		letter-spacing: 0.04em;
+		font-size: clamp(2.6rem, 13vw, 4.6rem);
+		font-weight: 900;
+		line-height: 0.86;
+		letter-spacing: 0.01em;
 	}
-	.hero p {
-		margin: 0.3em 0 0;
-		color: rgb(var(--gray));
+	.descricao {
+		margin: 0 0 3rem;
+		color: var(--cinza);
+		font-size: 1.15em;
 	}
-	.section-title {
-		margin-bottom: 1.5rem;
-		font-size: 0.8em;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		color: var(--accent);
+	.secao {
+		margin: 0 0 0.25rem;
+		color: var(--cinza);
+		font-size: 1.3rem;
+		font-weight: 700;
 	}
-	.more {
-		margin-top: 2.5rem;
-		text-align: center;
+	.mais {
+		margin: 1rem 0 0;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--linha);
 	}
-	@media (max-width: 720px) {
-		.hero h1 {
-			font-size: 2.2em;
+	@keyframes carimbo {
+		from {
+			opacity: 0;
+			transform: scale(1.35) rotate(-14deg);
+		}
+		to {
+			opacity: 1;
+			transform: none;
 		}
 	}
 </style>

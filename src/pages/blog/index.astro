@@ -7,12 +7,12 @@ import { getPosts } from '../../lib/posts';
 const posts = await getPosts();
 ---
 
-<Page title="Posts" description={`Todos os posts do ${SITE_TITLE}.`} wide>
-	<h1 class="page-title">Posts</h1>
+<Page title="Posts" description={`Todos os posts do ${SITE_TITLE}.`}>
+	<h1>Posts</h1>
 	<PostList posts={posts} />
 </Page>
 <style>
-	.page-title {
-		margin-bottom: 2rem;
+	h1 {
+		margin-bottom: 1rem;
 	}
 </style>

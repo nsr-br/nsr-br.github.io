@@ -11,73 +11,87 @@ interface Props {
 const { posts } = Astro.props;
 ---
 
-{posts.length === 0 && <p class="empty">Nenhum post publicado ainda.</p>}
-<ul>
-	{
-		posts.map((post) => (
-			<li>
-				<a href={url(`/blog/${post.id}/`)}>
-					{post.data.heroImage && (
-						<Image width={720} height={360} src={post.data.heroImage} alt={post.data.heroAlt ?? ''} />
-					)}
-					<p class="date">
-						<FormattedDate date={post.data.pubDate} />
-						{post.data.draft && <span class="draft">rascunho</span>}
-					</p>
-					<h2 class="title">{post.data.title}</h2>
-					<p class="description">{post.data.description}</p>
-				</a>
-			</li>
-		))
-	}
-</ul>
+{
+	posts.length === 0 ? (
+		<p class="vazio">
+			Nenhum post publicado ainda. Escreva o primeiro pelo painel, em <code>/admin</code>.
+		</p>
+	) : (
+		<ul>
+			{posts.map((post) => (
+				<li>
+					<a href={url(`/blog/${post.id}/`)}>
+						{post.data.heroImage && (
+							<Image
+								src={post.data.heroImage}
+								alt={post.data.heroAlt ?? ''}
+								widths={[400, 720, 1100]}
+								sizes="(min-width: 46rem) 42rem, 100vw"
+							/>
+						)}
+						<p class="data">
+							<FormattedDate date={post.data.pubDate} />
+							{post.data.draft && <span class="rascunho">rascunho</span>}
+						</p>
+						<h2>{post.data.title}</h2>
+						<p class="resumo">{post.data.description}</p>
+					</a>
+				</li>
+			))}
+		</ul>
+	)
+}
 <style>
 	ul {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
-		gap: 2.5rem 2rem;
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
+	li {
+		margin: 0;
+		border-top: 1px solid var(--linha);
+	}
 	a {
 		display: block;
+		padding: 1.5rem 0 1.75rem;
 		color: inherit;
 		text-decoration: none;
 	}
 	img {
-		margin-bottom: 0.5rem;
-		border-radius: 10px;
-		transition: box-shadow 0.2s ease;
+		width: 100%;
+		margin-bottom: 1rem;
+		aspect-ratio: 2 / 1;
+		object-fit: cover;
 	}
-	a:hover img {
-		box-shadow: var(--box-shadow);
+	.data {
+		margin: 0 0 0.4rem;
+		color: var(--cinza);
+		font-size: 0.9rem;
 	}
-	.title {
-		margin: 0.2rem 0 0.4rem;
-		font-size: 1.4em;
-		transition: color 0.2s ease;
+	h2 {
+		margin: 0 0 0.45rem;
+		font-size: clamp(1.75rem, 7vw, 2.3rem);
+		text-decoration-color: var(--vermelho);
+		text-decoration-thickness: 3px;
+		text-underline-offset: 0.12em;
 	}
-	a:hover .title {
-		color: var(--accent);
+	a:hover h2 {
+		text-decoration-line: underline;
 	}
-	.date {
+	.resumo {
 		margin: 0;
-		color: rgb(var(--gray));
-		font-size: 0.8em;
+		color: var(--cinza);
+		line-height: 1.5;
 	}
-	.description {
-		margin: 0;
-		color: rgb(var(--gray-dark));
-		font-size: 0.9em;
-	}
-	.draft {
+	.rascunho {
 		margin-left: 0.6em;
-		padding: 0.1em 0.5em;
-		background: #fff3cd;
-		border-radius: 4px;
+		padding: 0 0.45em;
+		border: 1px solid var(--vermelho);
+		border-radius: 3px;
+		color: var(--papel);
+		font-size: 0.8rem;
 	}
-	.empty {
-		color: rgb(var(--gray));
+	.vazio {
+		color: var(--cinza);
 	}
 </style>
