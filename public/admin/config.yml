@@ -87,13 +87,42 @@ collections:
   - name: paginas
     label: Páginas
     label_singular: Página
-    create: false
-    delete: false
-    files:
-      - name: sobre
-        label: Sobre
-        file: src/content/paginas/sobre.md
-        fields:
-          - { label: Título, name: title, widget: string }
-          - { label: Resumo, name: description, widget: text }
-          - { label: Texto, name: body, widget: richtext }
+    description: Páginas fixas, como Sobre e Repositório BR. Cada uma fica em /<endereço>/ e pode aparecer no menu.
+    folder: src/content/paginas
+    # Igual aos posts: uma pasta por página, com as imagens dela ao lado.
+    path: '{{slug}}/index'
+    media_folder: ''
+    public_folder: ''
+    extension: md
+    format: frontmatter
+    create: true
+    delete: true
+    preview_path: '{{dirname}}/'
+    summary: '{{title}}{{menu | ternary(" · no menu", "")}}'
+    sortable_fields:
+      fields: [ordem, title]
+      default:
+        field: ordem
+        direction: ascending
+    fields:
+      - label: Título
+        name: title
+        widget: string
+        hint: O endereço da página sai do título na criação (ex. "Repositório BR" vira /repositorio-br/). Não use os títulos Blog nem Admin.
+      - label: Resumo
+        name: description
+        widget: text
+        hint: Uma ou duas frases. Aparece na prévia do link no WhatsApp e nas redes.
+      - label: Mostrar no menu
+        name: menu
+        widget: boolean
+        default: false
+        required: false
+      - label: Posição no menu
+        name: ordem
+        widget: number
+        value_type: int
+        default: 50
+        required: false
+        hint: Número menor aparece antes. Posts vem sempre primeiro.
+      - { label: Texto, name: body, widget: richtext }

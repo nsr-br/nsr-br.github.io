@@ -20,12 +20,16 @@ const blog = defineCollection({
 		}),
 });
 
-// Páginas fixas editáveis pelo painel (hoje só a "Sobre").
+// Páginas fixas (Sobre, Repositório BR...), criadas pelo painel.
+// Cada uma vira src/content/paginas/<slug>/index.md e fica no endereço /<slug>/.
 const paginas = defineCollection({
-	loader: glob({ base: './src/content/paginas', pattern: '*.md' }),
+	loader: glob({ base: './src/content/paginas', pattern: '**/*.{md,mdx}' }),
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),
+		// Aparece no menu do topo e no rodapé, em ordem crescente de `ordem`.
+		menu: z.boolean().default(false),
+		ordem: z.number().default(50),
 	}),
 });
 

@@ -1,9 +1,12 @@
 ---
 import { SITE_TITLE } from '../consts';
+import { getMenu } from '../lib/paginas';
 import { url } from '../utils/url';
 import HeaderLink from './HeaderLink.astro';
 import Logo from './Logo.astro';
 import RssIcon from './RssIcon.astro';
+
+const menu = await getMenu();
 ---
 
 <header>
@@ -14,7 +17,7 @@ import RssIcon from './RssIcon.astro';
 		</a>
 		<div class="links">
 			<HeaderLink href="/blog/">Posts</HeaderLink>
-			<HeaderLink href="/sobre/">Sobre</HeaderLink>
+			{menu.map((item) => <HeaderLink href={item.href}>{item.label}</HeaderLink>)}
 			<a class="rss" href={url('/rss.xml')} title="Assinar o RSS">
 				<span class="sr-only">Assinar o RSS</span>
 				<RssIcon />
@@ -28,9 +31,10 @@ import RssIcon from './RssIcon.astro';
 	}
 	nav {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		justify-content: space-between;
-		gap: 0.75rem;
+		gap: 0 0.75rem;
 		max-width: calc(var(--medida) + 2 * var(--margem));
 		margin: 0 auto;
 		padding: 0.6rem var(--margem);
@@ -51,11 +55,15 @@ import RssIcon from './RssIcon.astro';
 	.marca :global(img) {
 		border-radius: 0;
 	}
+	/* Se o menu não couber ao lado do logo, desce para uma segunda linha e rola de lado. */
 	.links {
 		display: flex;
 		align-items: center;
 		gap: 0.15rem;
-		margin-right: -0.5rem;
+		max-width: calc(100% + 1rem);
+		margin: 0 -0.5rem;
+		overflow-x: auto;
+		scrollbar-width: none;
 	}
 	.links a {
 		display: flex;
@@ -65,6 +73,7 @@ import RssIcon from './RssIcon.astro';
 		color: var(--cinza);
 		font-size: 1rem;
 		text-decoration: none;
+		white-space: nowrap;
 	}
 	.links a:hover,
 	.links a.active {

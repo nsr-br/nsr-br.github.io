@@ -1,6 +1,8 @@
 ---
 title: Sobre
 description: Quem somos e o que publicamos.
+menu: true
+ordem: 90
 ---
 
 Blog dedicado a jogos de RPG NSR, OSR e Indies, com foco especial na divulgação, criação e fortalecimento da cena nacional.

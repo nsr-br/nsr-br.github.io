@@ -1,0 +1,23 @@
+---
+import { type CollectionEntry, render } from 'astro:content';
+import Page from '../layouts/Page.astro';
+import { getPaginas } from '../lib/paginas';
+
+// Uma rota para todas as páginas criadas no painel: /sobre/, /repositorio-br/...
+export async function getStaticPaths() {
+	const paginas = await getPaginas();
+	return paginas.map((pagina) => ({
+		params: { pagina: pagina.id },
+		props: pagina,
+	}));
+}
+type Props = CollectionEntry<'paginas'>;
+
+const pagina = Astro.props;
+const { Content } = await render(pagina);
+---
+
+<Page title={pagina.data.title} description={pagina.data.description}>
+	<h1>{pagina.data.title}</h1>
+	<Content />
+</Page>

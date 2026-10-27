@@ -1,6 +1,9 @@
 ---
 import { SITE_TITLE } from '../consts';
+import { getMenu } from '../lib/paginas';
 import { url } from '../utils/url';
+
+const menu = await getMenu();
 
 const today = new Date();
 ---
@@ -10,7 +13,13 @@ const today = new Date();
 		<p class="nome">{SITE_TITLE}</p>
 		<ul>
 			<li><a href={url('/blog/')}>Posts</a></li>
-			<li><a href={url('/sobre/')}>Sobre</a></li>
+			{
+				menu.map((item) => (
+					<li>
+						<a href={url(item.href)}>{item.label}</a>
+					</li>
+				))
+			}
 			<li><a href={url('/rss.xml')}>RSS</a></li>
 		</ul>
 		<p class="ano">&copy; {today.getFullYear()}</p>

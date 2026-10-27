@@ -34,6 +34,13 @@ ao repositório.
 > [Sveltia CMS Authenticator](https://github.com/sveltia/sveltia-cms-auth) (Cloudflare Worker, grátis)
 > e colocar a URL dele em `base_url` no `public/admin/config.yml`.
 
+## Criar uma página nova
+
+No painel: **Páginas → Novo**. Preencha título, resumo e texto e, se quiser, ligue **Mostrar no menu** e
+escolha a **Posição no menu** (número menor aparece antes; Posts vem sempre primeiro). A página fica em
+`/<título-sem-acento>/`, por exemplo "Repositório BR" → `/repositorio-br/`. Os títulos "Blog" e "Admin"
+não podem ser usados, porque esses endereços já existem.
+
 ## Escrever no computador, sem GitHub
 
 ```sh
@@ -54,7 +61,7 @@ Rascunhos (`draft: true`) aparecem no `npm run dev` com um selo amarelo, mas fic
 | Nome e descrição do blog | `src/consts.ts` |
 | Cores e fonte | topo de `src/styles/global.css` |
 | Menu e rodapé | `src/components/Header.astro`, `src/components/Footer.astro` |
-| Página "Sobre" | pelo painel (**Páginas → Sobre**) ou `src/content/paginas/sobre.md` |
+| Páginas (Sobre, Repositório BR...) | pelo painel (**Páginas**) ou `src/content/paginas/<slug>/index.md` |
 | Posts | pelo painel ou `src/content/blog/<slug>/index.md` (imagens na mesma pasta) |
 | Campos do painel | `public/admin/config.yml` |
 | Logo e ícones | `src/assets/logo.png`, `public/favicon-32.png`, `public/apple-touch-icon.png`, `public/icon-512.png`, `public/admin/logo.png` |
