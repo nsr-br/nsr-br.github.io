@@ -1,0 +1,97 @@
+# Configuração do painel (Sveltia CMS): https://sveltiacms.app/en/docs
+#
+# `repo` e `site_url` são preenchidos sozinhos pelo deploy do GitHub Actions
+# (.github/workflows/deploy.yml). Só edite à mão se for usar o painel fora dele.
+backend:
+  name: github
+  repo: OWNER/REPO
+  branch: main
+  commit_messages:
+    create: 'Novo {{collection}}: {{slug}}'
+    update: 'Edita {{collection}}: {{slug}}'
+    delete: 'Apaga {{collection}}: {{slug}}'
+    uploadMedia: 'Envia imagem {{path}}'
+    deleteMedia: 'Apaga imagem {{path}}'
+
+site_url: http://localhost:4321
+display_url: http://localhost:4321
+
+# Imagens soltas (fora de um post). As de post ficam na pasta do próprio post.
+media_folder: public/images
+public_folder: /images
+
+# Campo opcional vazio não é gravado: assim o Astro não reclama de campo em branco.
+output:
+  omit_empty_optional_fields: true
+
+# Endereço do post sem acento e sem espaço: "Ação já!" vira "acao-ja".
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: '-'
+
+collections:
+  - name: blog
+    label: Posts
+    label_singular: Post
+    description: Posts do blog. Marque "Rascunho" para salvar sem publicar.
+    folder: src/content/blog
+    # Cada post vira uma pasta com o texto e as imagens dele (formato que o Astro otimiza).
+    path: '{{slug}}/index'
+    media_folder: ''
+    public_folder: ''
+    extension: md
+    format: frontmatter
+    create: true
+    delete: true
+    preview_path: 'blog/{{dirname}}/'
+    summary: '{{title}} · {{pubDate | date("DD/MM/YYYY")}}{{draft | ternary(" · RASCUNHO", "")}}'
+    sortable_fields:
+      fields: [pubDate, title]
+      default:
+        field: pubDate
+        direction: descending
+    fields:
+      - { label: Título, name: title, widget: string }
+      - label: Resumo
+        name: description
+        widget: text
+        hint: Uma ou duas frases. Aparece na lista de posts e na prévia do link no WhatsApp e nas redes.
+      - { label: Data de publicação, name: pubDate, widget: datetime }
+      - { label: Atualizado em, name: updatedDate, widget: datetime, required: false }
+      - label: Imagem de capa
+        name: heroImage
+        widget: image
+        required: false
+        hint: Proporção 2:1 (ex. 1600×800) fica melhor.
+      - label: Descrição da capa
+        name: heroAlt
+        widget: string
+        required: false
+        hint: Descreva a imagem para quem usa leitor de tela.
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        hint: Separe por vírgula.
+      - label: Rascunho
+        name: draft
+        widget: boolean
+        default: false
+        required: false
+        hint: Ligado = salva no GitHub, mas não aparece no site.
+      - { label: Texto, name: body, widget: richtext }
+
+  - name: paginas
+    label: Páginas
+    label_singular: Página
+    create: false
+    delete: false
+    files:
+      - name: sobre
+        label: Sobre
+        file: src/content/paginas/sobre.md
+        fields:
+          - { label: Título, name: title, widget: string }
+          - { label: Resumo, name: description, widget: text }
+          - { label: Texto, name: body, widget: richtext }

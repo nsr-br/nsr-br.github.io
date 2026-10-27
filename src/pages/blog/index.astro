@@ -1,0 +1,18 @@
+---
+import PostList from '../../components/PostList.astro';
+import { SITE_TITLE } from '../../consts';
+import Page from '../../layouts/Page.astro';
+import { getPosts } from '../../lib/posts';
+
+const posts = await getPosts();
+---
+
+<Page title="Posts" description={`Todos os posts do ${SITE_TITLE}.`} wide>
+	<h1 class="page-title">Posts</h1>
+	<PostList posts={posts} />
+</Page>
+<style>
+	.page-title {
+		margin-bottom: 2rem;
+	}
+</style>

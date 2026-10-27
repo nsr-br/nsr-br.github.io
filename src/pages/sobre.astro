@@ -1,0 +1,16 @@
+---
+import { getEntry, render } from 'astro:content';
+import Page from '../layouts/Page.astro';
+
+// Conteúdo em src/content/paginas/sobre.md, editável pelo painel.
+const page = await getEntry('paginas', 'sobre');
+if (!page) throw new Error('src/content/paginas/sobre.md não encontrado');
+const { Content } = await render(page);
+---
+
+<Page title={page.data.title} description={page.data.description}>
+	<h1>{page.data.title}</h1>
+	<div class="prose">
+		<Content />
+	</div>
+</Page>

@@ -1,0 +1,37 @@
+---
+import type { ImageMetadata } from 'astro';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_LANG } from '../consts';
+
+interface Props {
+	title: string;
+	description: string;
+	image?: ImageMetadata;
+	type?: 'website' | 'article';
+	wide?: boolean;
+}
+
+const { title, description, image, type, wide = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang={SITE_LANG}>
+	<head>
+		<BaseHead title={title} description={description} image={image} type={type} />
+		<slot name="head" />
+	</head>
+	<body>
+		<Header />
+		<main class:list={{ wide }}>
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>
+<style>
+	main.wide {
+		width: 960px;
+	}
+</style>

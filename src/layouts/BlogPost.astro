@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+import Page from './Page.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage, heroAlt, tags, draft } = Astro.props;
+---
+
+<Page title={title} description={description} image={heroImage} type="article" wide>
+	<article>
+		{
+			heroImage && (
+				<div class="hero-image">
+					<Image width={1020} height={510} src={heroImage} alt={heroAlt ?? ''} />
+				</div>
+			)
+		}
+		<div class="prose">
+			<div class="title">
+				{draft && <p class="draft">Rascunho: não aparece no site publicado</p>}
+				<div class="date">
+					<FormattedDate date={pubDate} />
+					{
+						updatedDate && (
+							<div class="last-updated-on">
+								Atualizado em <FormattedDate date={updatedDate} />
+							</div>
+						)
+					}
+				</div>
+				<h1>{title}</h1>
+				{
+					tags.length > 0 && (
+						<ul class="tags">
+							{tags.map((tag) => (
+								<li>#{tag}</li>
+							))}
+						</ul>
+					)
+				}
+				<hr />
+			</div>
+			<slot />
+		</div>
+	</article>
+</Page>
+<style>
+	.hero-image {
+		width: 100%;
+	}
+	.hero-image img {
+		display: block;
+		margin: 0 auto;
+		border-radius: 12px;
+		box-shadow: var(--box-shadow);
+	}
+	.prose {
+		width: 720px;
+		max-width: 100%;
+		margin: auto;
+		padding: 1em 0;
+		color: rgb(var(--gray-dark));
+	}
+	.title {
+		margin-bottom: 1em;
+		padding: 1em 0;
+		text-align: center;
+		line-height: 1;
+	}
+	.title h1 {
+		margin: 0 0 0.5em 0;
+	}
+	.date {
+		margin-bottom: 0.5em;
+		color: rgb(var(--gray));
+	}
+	.last-updated-on {
+		margin-top: 0.4em;
+		font-size: 0.8em;
+		font-style: italic;
+	}
+	.draft {
+		display: inline-block;
+		margin: 0 0 1em;
+		padding: 0.3em 0.8em;
+		background: #fff3cd;
+		border-radius: 4px;
+		font-size: 0.75em;
+	}
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.5em;
+		margin: 0 0 1em;
+		padding: 0;
+		list-style: none;
+		font-size: 0.75em;
+		color: var(--accent);
+	}
+	@media (max-width: 720px) {
+		.title h1 {
+			font-size: 2em;
+		}
+	}
+</style>

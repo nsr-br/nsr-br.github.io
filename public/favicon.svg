@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#fff"/>
+  <circle cx="50" cy="50" r="44" fill="none" stroke="#111" stroke-width="5"/>
+  <!-- bandeira de trás (preta) -->
+  <line x1="30" y1="78" x2="62" y2="24" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+  <path d="M62 24 C70 30 78 26 86 32 L76 50 C68 44 60 48 52 42 Z" fill="#111"/>
+  <!-- bandeira da frente (vermelha) -->
+  <line x1="22" y1="72" x2="48" y2="22" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+  <path d="M48 22 C56 28 64 24 72 30 L62 48 C54 42 46 46 38 40 Z" fill="#d7262f" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+</svg>
